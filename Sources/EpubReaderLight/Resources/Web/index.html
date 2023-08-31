@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="book"></div>
+    <script src="bundle.js"></script>
+    <script>
+        function highlightWords(value) {
+          try {
+            const wordsObject = JSON.parse(value);
+            const event = new CustomEvent('highlightWords', { detail: wordsObject });
+            window.dispatchEvent(event);
+          } catch { }
+        }
+
+       function changeFontSize(value) {
+         const event = new CustomEvent('changeFontSize', { detail: value });
+         window.dispatchEvent(event);
+       }
+
+       function changeTheme(value) {
+         const event = new CustomEvent('changeTheme', { detail: value });
+         window.dispatchEvent(event);
+       }
+
+        function goToPage(value) {
+          const event = new CustomEvent('goToPage', { detail: value });
+          window.dispatchEvent(event);
+        }
+
+        function loadBook(value) {
+          const event = new CustomEvent('loadBook', { detail: value });
+          window.dispatchEvent(event);
+        }
+    </script>
+  </body>
+</html>
