@@ -97,7 +97,6 @@ extension WebManager: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        print("URL - REQUEST")
         decisionHandler(.allow)
     }
 }
