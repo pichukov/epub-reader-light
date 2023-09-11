@@ -16,10 +16,16 @@ protocol WebManagerDelegate {
 class WebManager: NSObject {
 
     let webView: WKWebView
+    var defaultTheme: Theme = .light
     var delegate: WebManagerDelegate?
 
     private var pageLoaded = false
     private var pendingFunctions: [JSFunction] = []
+
+    convenience init(theme: Theme) {
+        self.init()
+        self.defaultTheme = theme
+    }
 
     override init() {
         let configuration = WKWebViewConfiguration()

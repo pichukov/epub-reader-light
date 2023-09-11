@@ -21,6 +21,11 @@ struct WebView: UIViewRepresentable {
             print("🔴 Error: Can't load web content from the given files")
             return
         }
+        let stringUrl = url.absoluteString + "?theme=\(manager.defaultTheme.rawValue)"
+        guard let url = URL(string: stringUrl) else {
+            print("🔴 Error: Can't load web content from the given files")
+            return
+        }
         if #available(iOS 16.4, *) {
             manager.webView.isInspectable = true
         }

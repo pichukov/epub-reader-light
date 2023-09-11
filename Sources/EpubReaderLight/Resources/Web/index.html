@@ -3,39 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link type="text/css" rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="themes.css" />
   </head>
   <body>
+<!--                <input type="file" id="file" />-->
     <div id="book"></div>
     <script src="bundle.js"></script>
     <script>
-        function highlightWords(value) {
-          try {
-            const wordsObject = JSON.parse(value);
-            const event = new CustomEvent('highlightWords', { detail: wordsObject });
-            window.dispatchEvent(event);
-          } catch { }
+      const urlParams = new URLSearchParams(window.location.search);
+      const theme = urlParams.get('theme');
+      if (theme) {
+        if (theme === 'dark') {
+          document.body.classList.add('dark');
+        } else {
+          document.body.classList.add('light');
         }
+      }
 
-       function changeFontSize(value) {
-         const event = new CustomEvent('changeFontSize', { detail: value });
-         window.dispatchEvent(event);
-       }
-
-       function changeTheme(value) {
-         const event = new CustomEvent('changeTheme', { detail: value });
-         window.dispatchEvent(event);
-       }
-
-        function goToPage(value) {
-          const event = new CustomEvent('goToPage', { detail: value });
+      function highlightWords(value) {
+        try {
+          const wordsObject = JSON.parse(value);
+          const event = new CustomEvent('highlightWords', { detail: wordsObject });
           window.dispatchEvent(event);
-        }
+        } catch {}
+      }
 
-        function loadBook(value) {
-          const event = new CustomEvent('loadBook', { detail: value });
+      function changeFontSize(value) {
+        const event = new CustomEvent('changeFontSize', { detail: value });
+        window.dispatchEvent(event);
+      }
+
+      function changeTheme(value) {
+        const event = new CustomEvent('changeTheme', { detail: value });
+        window.dispatchEvent(event);
+      }
+
+      function goToPage(value) {
+        const event = new CustomEvent('goToPage', { detail: value });
+        window.dispatchEvent(event);
+      }
+
+      function loadBook(value) {
+        try {
+          const bookData = JSON.parse(value);
+          const event = new CustomEvent('loadBook', { detail: bookData });
           window.dispatchEvent(event);
-        }
+        } catch {}
+      }
+
+      function changeFont(value) {
+        const event = new CustomEvent('changeFont', { detail: value });
+        window.dispatchEvent(event);
+      }
+
+      function unhighlightWords(value) {
+        try {
+          const wordsObject = JSON.parse(value);
+          const event = new CustomEvent('unhighlightWords', { detail: wordsObject });
+          window.dispatchEvent(event);
+        } catch {}
+      }
     </script>
   </body>
 </html>

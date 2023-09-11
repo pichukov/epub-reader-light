@@ -4,4 +4,6 @@ public struct BookEvent<T: Decodable>: Decodable {
 
 public enum BookEventType: String, Codable {
     case saveWord
+    case onBookLoaded
+    case setSavedData
 }
