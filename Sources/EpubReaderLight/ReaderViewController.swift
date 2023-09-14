@@ -186,7 +186,6 @@ extension ReaderViewController: WebManagerDelegate {
     }
 
     private func parseEvent<T: Decodable>(data: Data) -> T? {
-        print(data.jsonString)
         return try? JSONDecoder().decode(BookEvent<T>.self, from: data).value
     }
 }
