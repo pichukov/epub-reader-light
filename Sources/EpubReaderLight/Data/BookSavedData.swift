@@ -1,6 +1,6 @@
 public struct BookSavedData: Codable {
 
-    public let locations: String?
+    public let locations: [String]?
     public let theme: Theme?
     public let fontSize: Int?
     public let font: String?
@@ -8,7 +8,7 @@ public struct BookSavedData: Codable {
     public let totalPages: Int?
 
     public init(
-        locatios: String? = nil,
+        locatios: [String]? = nil,
         theme: Theme? = nil,
         fontSize: Int? = nil,
         font: String? = nil,
