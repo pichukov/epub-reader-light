@@ -18,17 +18,23 @@ struct WebView: UIViewRepresentable {
             forResource: "index",
             withExtension: "html"
         ) else {
+            #if DEBUG
             print("🔴 Error: Can't load web content from the given files")
+            #endif
             return
         }
         let stringUrl = url.absoluteString + "?theme=\(manager.defaultTheme.rawValue)"
         guard let url = URL(string: stringUrl) else {
+            #if DEBUG
             print("🔴 Error: Can't load web content from the given files")
+            #endif
             return
         }
+        #if DEBUG
         if #available(iOS 16.4, *) {
             manager.webView.isInspectable = true
         }
+        #endif
         manager.webView.loadFileURL(
             url,
             allowingReadAccessTo: url.deletingLastPathComponent()

@@ -119,7 +119,9 @@ extension WebManager: WKScriptMessageHandler {
             message.name == Constants.messageName,
             let body = message.body as? [String: AnyObject]
         else {
+            #if DEBUG
             print("⚠️ Unexpected message from Web View")
+            #endif
             return
         }
         delegate?.didReceiveMessage(message: body)

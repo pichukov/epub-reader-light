@@ -20,7 +20,9 @@ final public class ReaderViewController: ObservableObject {
         highlights: [WordHighlight]? = nil
     ) async throws {
         guard let data = try? Data(contentsOf: url) else {
+            #if DEBUG
             print("⚠️ Error: No data for file URL \(url.absoluteString)")
+            #endif
             throw ReaderError.noDataForBookURL
         }
         let bookData = BookData(
@@ -41,7 +43,9 @@ final public class ReaderViewController: ObservableObject {
                 case .success:
                     continuation.resume(returning: Void())
                 case .failure(let error):
+                    #if DEBUG
                     print("⚠️ loadBook failed with error: \(error)")
+                    #endif
                     continuation.resume(throwing: ReaderError.bookLoadingFailed)
                 }
             }
@@ -56,7 +60,9 @@ final public class ReaderViewController: ObservableObject {
                 case .success:
                     continuation.resume(returning: Void())
                 case .failure(let error):
+                    #if DEBUG
                     print("⚠️ scrollToPage failed with error: \(error)")
+                    #endif
                     continuation.resume(throwing: ReaderError.scrollingFailed)
                 }
             }
@@ -71,7 +77,9 @@ final public class ReaderViewController: ObservableObject {
                 case .success:
                     continuation.resume(returning: Void())
                 case .failure(let error):
+                    #if DEBUG
                     print("⚠️ changeTheme failed with error: \(error)")
+                    #endif
                     continuation.resume(throwing: ReaderError.changeThemeFailed)
                 }
             }
@@ -86,7 +94,9 @@ final public class ReaderViewController: ObservableObject {
                 case .success:
                     continuation.resume(returning: Void())
                 case .failure(let error):
+                    #if DEBUG
                     print("⚠️ changeFontSize failed with error: \(error)")
+                    #endif
                     continuation.resume(throwing: ReaderError.changeFontSizeFailed)
                 }
             }
@@ -101,7 +111,9 @@ final public class ReaderViewController: ObservableObject {
                 case .success:
                     continuation.resume(returning: Void())
                 case .failure(let error):
+                    #if DEBUG
                     print("⚠️ changeFont failed with error: \(error)")
+                    #endif
                     continuation.resume(throwing: ReaderError.changeFontFailed)
                 }
             }
@@ -122,7 +134,9 @@ final public class ReaderViewController: ObservableObject {
                 case .success:
                     continuation.resume(returning: Void())
                 case .failure(let error):
+                    #if DEBUG
                     print("⚠️ highlighWords failed with error: \(error)")
+                    #endif
                     continuation.resume(throwing: ReaderError.highlightWordsFailed)
                 }
             }
@@ -143,7 +157,9 @@ final public class ReaderViewController: ObservableObject {
                 case .success:
                     continuation.resume(returning: Void())
                 case .failure(let error):
+                    #if DEBUG
                     print("⚠️ highlighWords failed with error: \(error)")
+                    #endif
                     continuation.resume(throwing: ReaderError.highlightWordsFailed)
                 }
             }
@@ -164,13 +180,17 @@ extension ReaderViewController: WebManagerDelegate {
             let eventType = BookEventType(rawValue: event),
             let data = try? JSONSerialization.data(withJSONObject: dict, options: [])
         else {
+            #if DEBUG
             print("⚠️ Wrong structure of Event object")
+            #endif
             return
         }
         switch eventType {
         case .saveWord:
             guard let word: String = parseEvent(data: data) else {
+                #if DEBUG
                 print("⚠️ Error in Word Event parsing")
+                #endif
                 return
             }
             eventsHandler?.onSelect(word: word.alphanumeric)
@@ -178,7 +198,9 @@ extension ReaderViewController: WebManagerDelegate {
             eventsHandler?.onBookLoaded()
         case .setSavedData:
             guard let savedData: BookSavedData = parseEvent(data: data) else {
+                #if DEBUG
                 print("⚠️ Error in set saved data Event parsing")
+                #endif
                 return
             }
             eventsHandler?.onUpdated(savedData: savedData)
