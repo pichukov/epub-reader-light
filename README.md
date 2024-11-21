@@ -53,3 +53,60 @@ try? await readerController.loadBook(
 - `fontSize`: size of the font in book
 - `font`: font style
 - `page`: initial page that will be opened
+
+Here is an example of a simple `ViewModel` that loads a book from project:
+
+```swift
+import SwiftUI
+import EpubReaderLight
+
+@Observable
+class ContentViewModel {
+
+    @ObservationIgnored
+    lazy var readerController = ReaderViewController(theme: .dark, eventsHandler: self)
+
+    func loadBook() {
+        Task { @MainActor in
+            guard let url = Bundle.main.url(forResource: "my_book", withExtension: "epub") else {
+                print("⚠️ Error: unsupported book URL")
+                return
+            }
+            Task {
+                try? await readerController.loadBook(url: url)
+            }
+        }
+    }
+}
+
+extension ContentViewModel: ReaderEventsHandler {
+    
+    func onSelect(word: String) {}
+    
+    func onBookLoaded() {}
+    
+    func onUpdated(savedData: EpubReaderLight.BookSavedData) {}
+}
+```
+
+And here is the way to show the book in UI:
+
+```swift
+import SwiftUI
+import EpubReaderLight
+
+struct ContentView: View {
+
+    @State private var viewModel = ContentViewModel()
+
+    var body: some View {
+        VStack {
+            ReaderView(controller: viewModel.readerController)
+                .ignoresSafeArea()
+        }
+        .onAppear {
+            viewModel.loadBook()
+        }
+    }
+}
+```
